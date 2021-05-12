@@ -16,21 +16,24 @@ public:
 
     struct HeaderExtend {
         uint64_t largesize;
-        uint64_t userType[2];
+        char userType[128];
     } extend;
 
-    uint32_t startPos;
-    uint32_t endPos;
+    uint64_t startPos;
+    uint64_t endPos;
     std::vector<Box> containers;
 };
 
 class mp4 : public MuxerBase{
 public:
-    ~mp4() override;
+    ~mp4() override = default;
 
     void Process() override ;
 
 private:
+    void OneBoxAnalysis(const std::shared_ptr<Box>& box, std::vector<Box>& boxs);
+    void RootBoxAnalysis(std::vector<Box>& boxs);
+    void ReadFileInfo();
     std::vector<Box> m_boxs;
 };
 

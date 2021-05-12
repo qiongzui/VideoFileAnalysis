@@ -17,6 +17,8 @@ public:
     virtual void Process() = 0;
 
 protected:
+    // 将字符串转化为数值
+    uint64_t Tranform2Number(char* src, int len);
     std::ifstream m_infile;
 };
 
