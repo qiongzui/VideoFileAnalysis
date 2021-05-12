@@ -6,6 +6,7 @@
 #define VIDEOFILEANALYSIS_MUXERBASE_H
 
 #include <fstream>
+#include <vector>
 
 class MuxerBase {
 public:
