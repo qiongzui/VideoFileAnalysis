@@ -21,7 +21,7 @@ public:
 
     uint64_t startPos;
     uint64_t endPos;
-    std::vector<Box> containers;
+    std::vector<std::shared_ptr<Box>> containers;
 };
 
 class mp4 : public MuxerBase{
@@ -31,8 +31,7 @@ public:
     void Process() override ;
 
 private:
-    void OneBoxAnalysis(const std::shared_ptr<Box>& box, std::vector<Box>& boxs);
-    void RootBoxAnalysis(std::vector<Box>& boxs);
+    void OneBoxAnalysis(const std::shared_ptr<Box>& box);
     void ReadFileInfo();
     std::vector<Box> m_boxs;
 };

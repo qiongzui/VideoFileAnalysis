@@ -3,7 +3,9 @@
 //
 
 #include "MuxerBase.h"
+#include <iostream>
 
+using namespace std;
 uint64_t MuxerBase::Tranform2Number(char* src, int len)
 {
     uint64_t ret = 0;
@@ -14,4 +16,20 @@ uint64_t MuxerBase::Tranform2Number(char* src, int len)
         ret += tmp;
     }
     return ret;
+}
+
+bool MuxerBase::OpenFile() {
+    if (m_inFile.is_open()) {
+        m_inFile.close();
+    }
+    m_inFile.open(m_filePath, ios::in | ios::binary);
+    if (!m_inFile.is_open()) {
+        cout<< "ERROR: file is not exist"<< endl;
+        return false;
+    }
+    return true;
+}
+
+void MuxerBase::CloseFile() {
+    m_inFile.close();
 }

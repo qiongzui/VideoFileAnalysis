@@ -7,19 +7,24 @@
 
 #include <fstream>
 #include <vector>
+#include <memory>
 
 class MuxerBase {
 public:
     MuxerBase() = default;
     virtual ~MuxerBase() = default;
 
-    void SetDataFile(std::ifstream file) { m_infile = move(file); }
+    void SetDataFile(const std::string &filePath) { m_filePath = filePath; }
     virtual void Process() = 0;
 
 protected:
     // 将字符串转化为数值
     uint64_t Tranform2Number(char* src, int len);
-    std::ifstream m_infile;
+    bool OpenFile();
+    void CloseFile();
+
+    std::string m_filePath;
+    std::ifstream m_inFile;
 };
 
 
