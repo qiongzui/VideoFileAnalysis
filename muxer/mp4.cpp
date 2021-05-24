@@ -6,18 +6,19 @@
 #include <iostream>
 
 void mp4::Process() {
-
-    std::shared_ptr<Box> root = std::make_shared<Box>();
     root->header.size = INT32_MAX;
     memcpy(root->header.type, "root", 4);
     root->startPos = 0;
     root->endPos = INT32_MAX;
 
     OneBoxAnalysis(root);
-
+    PrintBoxInfo(root, 0);
 }
 
 void mp4::OneBoxAnalysis(const std::shared_ptr<Box>& box) {
+    if (strcmp(box->header.type, "mdat") == 0) {
+        return;
+    }
     if (!OpenFile()) {
         return;
     }
@@ -46,7 +47,7 @@ void mp4::OneBoxAnalysis(const std::shared_ptr<Box>& box) {
 
         m_inFile.get(context, 9);
         uint64_t size = Tranform2Number(context, 4);
-        if (size == 0 || size > end - start - 8) {
+        if (size < 8 || size > end - start - 8) {
             break;
         }
 
@@ -70,8 +71,8 @@ void mp4::OneBoxAnalysis(const std::shared_ptr<Box>& box) {
         tmpBox->endPos = tmpBox->header.size > 1? tmpBox->startPos + size : tmpBox->startPos + tmpBox->extend.largesize;
         readPos = tmpBox->endPos;
 
-        std::cout<< tmpBox->header.size << std::endl;
-        std::cout<< tmpBox->header.type << std::endl;
+//        std::cout<< tmpBox->header.size << std::endl;
+//        std::cout<< tmpBox->header.type << std::endl;
 
         OneBoxAnalysis(tmpBox);
         if (!m_inFile.is_open()) {
@@ -82,4 +83,21 @@ void mp4::OneBoxAnalysis(const std::shared_ptr<Box>& box) {
         m_inFile.seekg(readPos);
     }
     //CloseFile();
+}
+
+void mp4::PrintBoxInfo(const std::shared_ptr<Box>& box, int depth) {
+    if (box == nullptr) {
+        return;
+    }
+
+    if (strcmp(box->header.type, "root") != 0) {
+        std::cout<<box->header.type<<" : "<<box->header.size<<std::endl;
+    }
+
+    for (auto& item : box->containers) {
+        for (int i = 0; i < depth; ++i) {
+            std::cout<<"----";
+        }
+        PrintBoxInfo(item, depth + 1);
+    }
 }
