@@ -32,6 +32,7 @@ public:
 private:
     void OneBoxAnalysis(const std::shared_ptr<Box>& box);
     void PrintBoxInfo(const std::shared_ptr<Box>& box, int depth);
+    int GetFtypInfo(const std::shared_ptr<Box>& box);
     std::shared_ptr<Box> root = std::make_shared<Box>();
 };
 

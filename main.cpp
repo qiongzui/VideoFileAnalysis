@@ -8,7 +8,7 @@ int main() {
     string path = "/Users/zhengzhenhao/Documents/VideoSource/test1.mp4";
 
     mp4 muxer;
-    muxer.SetDataFile(path);
+    muxer.init(path);
     muxer.Process();
 
     return 0;

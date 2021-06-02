@@ -5,7 +5,7 @@
 #ifndef VIDEOFILEANALYSIS_MUXERBASE_H
 #define VIDEOFILEANALYSIS_MUXERBASE_H
 
-#include <fstream>
+#include <iostream>
 #include <vector>
 #include <memory>
 
@@ -58,7 +58,9 @@ public:
     MuxerBase() = default;
     virtual ~MuxerBase() = default;
 
-    void SetDataFile(const std::string &filePath) { m_filePath = filePath; }
+    virtual int init(const std::string &filePath);
+
+    //void SetDataFile(const std::string &filePath) { m_filePath = filePath; }
     virtual void Process() = 0;
     MediaContextSp GetMediaContext() { return m_mediaContext; };
 
@@ -69,7 +71,7 @@ protected:
     void CloseFile();
 
     std::string m_filePath;
-    std::ifstream m_inFile;
+    FILE *m_inFile = nullptr;
 
     MediaContextSp m_mediaContext;
 };

@@ -19,11 +19,12 @@ uint64_t MuxerBase::Tranform2Number(char* src, int len)
 }
 
 bool MuxerBase::OpenFile() {
-    if (m_inFile.is_open()) {
-        m_inFile.close();
+    if (m_inFile != nullptr) {
+        return true;
     }
-    m_inFile.open(m_filePath, ios::in | ios::binary);
-    if (!m_inFile.is_open()) {
+
+    m_inFile = fopen(m_filePath.c_str(), "rb+");
+    if (m_inFile == nullptr) {
         cout<< "ERROR: file is not exist"<< endl;
         return false;
     }
@@ -31,5 +32,12 @@ bool MuxerBase::OpenFile() {
 }
 
 void MuxerBase::CloseFile() {
-    m_inFile.close();
+    fclose(m_inFile);
+    m_inFile = nullptr;
+}
+
+int MuxerBase::init(const string &filePath) {
+    m_filePath = filePath;
+    m_mediaContext = std::make_shared<MediaContext>();
+    return 0;
 }
