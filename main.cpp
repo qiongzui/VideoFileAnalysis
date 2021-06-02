@@ -7,8 +7,6 @@ using namespace std;
 int main() {
     string path = "/Users/zhengzhenhao/Documents/VideoSource/test1.mp4";
 
-
-
     mp4 muxer;
     muxer.SetDataFile(path);
     muxer.Process();

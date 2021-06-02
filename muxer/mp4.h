@@ -29,7 +29,6 @@ public:
     ~mp4() override = default;
 
     void Process() override ;
-
 private:
     void OneBoxAnalysis(const std::shared_ptr<Box>& box);
     void PrintBoxInfo(const std::shared_ptr<Box>& box, int depth);
