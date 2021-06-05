@@ -6,12 +6,12 @@
 #include <iostream>
 
 using namespace std;
-uint64_t MuxerBase::Tranform2Number(char* src, int len)
+uint64_t MuxerBase::Tranform2Number(uint8_t * src, int len)
 {
     uint64_t ret = 0;
     for (int i = 0; i < len; ++i) {
         ret = ret << 8;
-        auto c = static_cast<uint8_t>(src[i]);
+        auto c = src[i];
         uint64_t tmp = c - 0;
         ret += tmp;
     }
@@ -36,8 +36,14 @@ void MuxerBase::CloseFile() {
     m_inFile = nullptr;
 }
 
-int MuxerBase::init(const string &filePath) {
-    m_filePath = filePath;
-    m_mediaContext = std::make_shared<MediaContext>();
-    return 0;
+uint64_t MuxerBase::Tranform2Float(uint8_t *src, int len, int potIndex) {
+    float ret = Tranform2Number(src, potIndex);
+    float decimal = Tranform2Number(src, len - potIndex);
+    while (decimal >= 1) {
+        decimal /= 10;
+    }
+
+    ret += decimal;
+    return ret;
 }
+
