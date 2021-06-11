@@ -5,11 +5,13 @@
 #ifndef VIDEOFILEANALYSIS_MP4_TYPES_H
 #define VIDEOFILEANALYSIS_MP4_TYPES_H
 
-#endif //VIDEOFILEANALYSIS_MP4_TYPES_H
-
 #include <iostream>
 #include <string>
-struct Data;
+
+struct Data {
+    uint64_t startPos;
+    uint32_t len;
+};
 
 struct Track {
     struct TkhdInfo {
@@ -99,3 +101,5 @@ struct Track {
         } minfInfo;
     } mdiaInfo;
 };
+
+#endif //VIDEOFILEANALYSIS_MP4_TYPES_H

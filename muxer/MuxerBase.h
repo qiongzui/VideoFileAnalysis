@@ -9,12 +9,9 @@
 #include <vector>
 #include <memory>
 
-struct Track;
+#include "mp4_types.h"
 
-struct Data {
-    uint64_t startPos;
-    uint32_t len;
-};
+struct FlvInfo;
 
 struct MediaContext {
     std::string format;
@@ -29,6 +26,8 @@ struct MediaContext {
     std::vector<Track> tracks;
     std::string encodeMode;
     uint32_t bitRate;
+
+    std::shared_ptr<FlvInfo> flvInfos;
 };
 
 using MediaContextSp = std::shared_ptr<MediaContext>;

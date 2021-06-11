@@ -404,7 +404,7 @@ int mp4::GetDrefInfo(const std::shared_ptr<Box> &box, Track &track) {
         fread(dataReference.type, 1, 4, m_inFile);
         fread(dataReference.version, 1, 1, m_inFile);
         fread(dataReference.flag, 1, 3, m_inFile);
-        drefInfo.dataVec.emplace_back(std::move(dataReference));
+        drefInfo.dataVec.emplace_back(dataReference);
     }
     return 0;
 }
