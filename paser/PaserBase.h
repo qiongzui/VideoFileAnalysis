@@ -6,6 +6,7 @@
 #define VIDEOFILEANALYSIS_PASERBASE_H
 
 #include "MediaType.h"
+#include <queue>
 #include <thread>
 class PaserBase {
 public:
@@ -21,7 +22,7 @@ protected:
     std::condition_variable variable;
     std::mutex paserMutex;
     uint8_t *data;
-    std::vector<MediaPacketSp> mediaPacketCache;
+    std::queue<MediaPacketSp> mediaPacketCache;
     std::thread thread;
     bool m_stop;
 };

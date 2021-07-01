@@ -37,7 +37,7 @@ void H264Paser::ProcessThread() {
 
         MediaPacketSp packet = PaserOnePacket();
         if (packet != nullptr) {
-            mediaPacketCache.emplace_back(packet);
+            mediaPacketCache.emplace(packet);
         }
     }
 }
@@ -72,7 +72,10 @@ int32_t H264Paser::stop() {
 int32_t H264Paser::flush() {
     std::lock_guard<std::mutex> lock(paserMutex);
     data = nullptr;
-    mediaPacketCache.clear();
+    while (!mediaPacketCache.empty()) {
+        mediaPacketCache.pop();
+    }
+
 
     return 0;
 }
